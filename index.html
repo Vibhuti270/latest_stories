@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Latest Time Stories</title>
+</head>
+<body>
+    <h1>Latest Time Stories</h1>
+    <div id="stories"></div>
+
+    <script>
+        async function fetchStories() {
+            try {
+                const response = await fetch('http://localhost:3000/getTimeStories');
+                const stories = await response.json();
+                
+                const storiesContainer = document.getElementById('stories');
+                storiesContainer.innerHTML = '';
+                
+                stories.forEach(story => {
+                    const storyElement = document.createElement('div');
+                    storyElement.className = 'story';
+                    storyElement.innerHTML = `<a href="${story.link}" target="_blank">${story.title}</a>`;
+                    storiesContainer.appendChild(storyElement);
+                });
+            } catch (error) {
+                document.getElementById('stories').innerHTML = 'Failed to load stories';
+            }
+        }
+        
+        fetchStories();
+    </script>
+</body>
+</html>

@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 
 const https = require('https');
-
+const cors = require('cors');
+app.use(cors());
 const fetchStory = async () => {
     return new Promise((resolve, reject) => {
       https.get('https://time.com', async (res) => {
@@ -10,7 +11,6 @@ const fetchStory = async () => {
         res.on('data', (chunk) => data += chunk);
         res.on('end', () =>{
         try {
-  
           let latestIndex = data.indexOf('latest-stories__item');
           if (latestIndex === -1) latestIndex = data.indexOf('LATEST STORIES');
   
@@ -37,7 +37,7 @@ const fetchStory = async () => {
       }).on('error', reject);
     });
   };
-        
+        // 
 app.get('/getTimeStories', async (req, res) => {
     try {
       const stories = await fetchStory();
